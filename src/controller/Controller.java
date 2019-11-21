@@ -24,12 +24,13 @@ public class Controller {
 
     public Controller(int numeroThreads) {
         this.numeroThreads = numeroThreads;
-        contadorPalavras();
-        setArrays(textoCompleto, numeroThreads);
-        this.threads = newThreads(numeroThreads);
+//        splitPalavras();
+//        setArrays(textoCompleto, numeroThreads);
+//        this.threads = newThreads(numeroThreads);
+//        setaArrays(numeroThreads);
     }
 
-    public void contadorPalavras() {
+    public void splitPalavras() {
         try {
             bufferedReader = new BufferedReader(new FileReader(arquivoTxt));
         } catch (FileNotFoundException ex) {
@@ -43,6 +44,7 @@ public class Controller {
                     textoCompleto.add(palavras[i]);
                 }
             }
+            System.out.println("Contador de palavras do controlle: " + contador);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -57,13 +59,13 @@ public class Controller {
     public void setArrays(ArrayList<String> textoCompleto, int numeroThreads) {
         int numeroPalavrasPorThread = returnNumPalavrasPorThread();
         instaciarArrays();
+        newThreads(numeroThreads);
 
         for (int a = 0; a < textoCompleto.size() - 1; a++) {
             int thread = a % numeroThreads;
-            threads.get(thread).getTexto().add(textoCompleto.get(a));
-            //texto.add(textoCompleto.get(a));
+            this.arrays.get(thread).add(textoCompleto.get(a));
         }
-        System.out.println("sucesso");
+        System.out.println("sucesso ao dividir as palavras para cada thread");
     }
 
     public void instaciarArrays() {
@@ -74,16 +76,23 @@ public class Controller {
     }
 
     public ArrayList<Task> newThreads(int numeroThreads) {
-        ArrayList<Task> threads = new ArrayList<Task>();
+//        setaArrays(numeroThreads);
         for (int i = 0; i < numeroThreads; i++) {
             Task task = new Task();
             task.setName("task " + i);
             task.setTexto(arrays.get(i));
-            threads.add(task);
+            task.setPalavra("Deus");
+            this.threads.add(task);
         }
+        System.out.println("sucesso new Threads");
         return threads;
     }
 
+    //    public void setaArrays(int numeroThreads) {
+//        for (int i = 0; i < numeroThreads; i++) {
+//            threads.get(i).setTexto(arrays.get(i));
+//        }
+//    }
     public int getNumeroThreads() {
         return numeroThreads;
     }

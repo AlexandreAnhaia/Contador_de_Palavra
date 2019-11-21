@@ -16,7 +16,7 @@ public class Main {
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
 
-//        //Funcionando sequencial
+//         //Funcionando sequencial
 //        //####################################################
 //        String arquivoTxt = "./biblia-em-txt.txt";
 //        String linha;
@@ -34,23 +34,22 @@ public class Main {
 //        }
 //        System.out.println(contador);
 //
-//        Task task = new Task(textoCompleto, "Deus");
-//        task.contaPalavras(textoCompleto, "Deus", false);
-//        System.out.println(task.getQuantidadePalavras());
-//        //####################################################
+//        Task taskSequencial = new Task(textoCompleto, "Deus");
+//        taskSequencial.contaPalavras(textoCompleto, "Deus");
+//        System.out.println("Somatorio em sequencial " + taskSequencial.getQuantidadePalavras());
+//         //####################################################
 //        //Funcionando sequencial
-
         Controller controller = new Controller(4);
-        ArrayList<Task> threads = controller.getThreads();
-        controller.contadorPalavras();
-        controller.instaciarArrays();
-        controller.newThreads(controller.getNumeroThreads());
+        controller.splitPalavras();
         controller.setArrays(controller.getTextoCompleto(), controller.getNumeroThreads());
+//        controller.newThreads(controller.getNumeroThreads());
+        ArrayList<Task> threads = controller.getThreads();
 
         for (Task task : threads) {
             task.run();
         }
 
+        //ESPERA TODAS AS THREADS FINALIZAR AS TAREFAS
         try {
             for (Task task : threads) {
                 task.join();
@@ -58,23 +57,15 @@ public class Main {
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
+
+        //PERCORRE TODAS AS THREADS PARA FAZER A SOMA TOTAL
         int somatorio = 0;
         for (Task task : threads) {
             somatorio = somatorio + task.getQuantidadePalavras();
-            System.out.println(task.getTexto().size());
         }
-        System.out.println(somatorio);
 
-//
-//        Controller controller = new Controller(4);
-//        controller.contadorPalavras();
-//        //controller.splitArray(textoCompleto, controller.getNumeroThreads());
-//        controller.criaArrays(textoCompleto, controller.getContador());
-////        controller.splitArray((String[]) textoCompleto.toArray(), controller.getContador());
-////        System.out.println(controller.getArrays().get(0).size());
-////        System.out.println(controller.getArrays().get(1).size());
-////        System.out.println(controller.getArrays().get(2).size());
-////        System.out.println(controller.getArrays().get(3).size());
+        //PRINTA SOMATORIO
+        System.out.println("soma total feito em paralelo " + somatorio);
+
     }
-
 }
