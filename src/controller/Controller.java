@@ -44,7 +44,7 @@ public class Controller {
                     textoCompleto.add(palavras[i]);
                 }
             }
-            System.out.println("Contador de palavras do controlle: " + contador);
+            System.out.println("Contador de palavras do controller: " + contador);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
